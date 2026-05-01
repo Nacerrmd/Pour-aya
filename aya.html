@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pour Aya Tapounpount 🌙</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --deep: #050a1a;
+    --midnight: #0a1128;
+    --navy: #0f1f4a;
+    --blue: #1a3a7a;
+    --accent: #c8a96e;
+    --gold: #e8c97e;
+    --soft: #a8c4e8;
+    --white: #f0eee8;
+    --star: #ffffff;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--deep);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    position: fixed;
+    width: 8px; height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s;
+    mix-blend-mode: screen;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 32px; height: 32px;
+    border: 1px solid rgba(200,169,110,0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: all 0.15s ease;
+  }
+
+  /* Stars canvas */
+  #stars-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Sections */
+  section {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+  }
+
+  /* ── HERO ── */
+  #hero {
+    text-align: center;
+    gap: 2rem;
+  }
+
+  .moon {
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #f5e6b0, #c8a440 40%, #7a5a10 80%, #2a1f05);
+    box-shadow:
+      0 0 40px rgba(200,169,110,0.4),
+      0 0 80px rgba(200,169,110,0.15),
+      inset -15px -10px 30px rgba(0,0,0,0.5);
+    margin: 0 auto;
+    animation: moonFloat 6s ease-in-out infinite;
+    position: relative;
+  }
+  .moon::before {
+    content: '';
+    position: absolute;
+    top: 20%; left: 20%;
+    width: 15px; height: 15px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.15);
+    box-shadow: 20px 10px 0 rgba(0,0,0,0.1), 35px 25px 0 8px rgba(0,0,0,0.08);
+  }
+
+  @keyframes moonFloat {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-15px) rotate(2deg); }
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--accent);
+    opacity: 0;
+    animation: fadeUp 1s 0.5s forwards;
+  }
+
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(4rem, 14vw, 9rem);
+    font-weight: 300;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    opacity: 0;
+    animation: fadeUp 1.2s 0.8s forwards;
+  }
+  .hero-name em {
+    font-style: italic;
+    color: var(--gold);
+    display: block;
+  }
+
+  .hero-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 3vw, 1.4rem);
+    color: var(--soft);
+    max-width: 500px;
+    line-height: 1.7;
+    opacity: 0;
+    animation: fadeUp 1s 1.2s forwards;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0;
+    animation: fadeUp 1s 2s forwards;
+  }
+  .scroll-hint span { font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent); }
+  .scroll-line {
+    width: 1px; height: 50px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { transform: scaleY(1); opacity: 1; }
+    50% { transform: scaleY(0.5); opacity: 0.4; }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── MESSAGE ── */
+  #message {
+    gap: 3rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--accent);
+    opacity: 0.7;
+  }
+
+  .message-card {
+    background: linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+    border: 1px solid rgba(200,169,110,0.2);
+    border-radius: 2px;
+    padding: 3.5rem;
+    position: relative;
+    backdrop-filter: blur(10px);
+  }
+  .message-card::before {
+    content: '❝';
+    position: absolute;
+    top: -1.5rem; left: 2rem;
+    font-size: 5rem;
+    color: var(--accent);
+    opacity: 0.3;
+    font-family: 'Cormorant Garamond', serif;
+    line-height: 1;
+  }
+
+  .message-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.1rem, 2.5vw, 1.45rem);
+    line-height: 1.9;
+    color: var(--white);
+    font-weight: 300;
+  }
+  .message-text .highlight {
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  .message-signature {
+    margin-top: 2.5rem;
+    text-align: right;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--accent);
+  }
+
+  /* ── PHOTOS ── */
+  #photos {
+    gap: 3rem;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .photos-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 300;
+    text-align: center;
+    color: var(--white);
+  }
+  .photos-title em { font-style: italic; color: var(--gold); }
+
+  /* Upload zone */
+  .upload-zone {
+    border: 1px dashed rgba(200,169,110,0.4);
+    border-radius: 4px;
+    padding: 2.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    background: rgba(255,255,255,0.02);
+    width: 100%;
+  }
+  .upload-zone:hover { border-color: var(--gold); background: rgba(200,169,110,0.05); }
+  .upload-zone input { display: none; }
+  .upload-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+  .upload-text { font-size: 0.85rem; color: var(--soft); letter-spacing: 0.05em; }
+  .upload-text strong { color: var(--accent); }
+
+  /* Photo grid */
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .photo-item {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 2px;
+    border: 1px solid rgba(200,169,110,0.15);
+    animation: fadeIn 0.5s ease forwards;
+  }
+  @keyframes fadeIn { from { opacity:0; transform: scale(0.95); } to { opacity:1; transform: scale(1); } }
+
+  .photo-item img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+    display: block;
+  }
+  .photo-item:hover img { transform: scale(1.06); }
+
+  .photo-item .remove-btn {
+    position: absolute;
+    top: 0.5rem; right: 0.5rem;
+    width: 28px; height: 28px;
+    background: rgba(5,10,26,0.8);
+    border: 1px solid rgba(200,169,110,0.3);
+    border-radius: 50%;
+    color: var(--accent);
+    font-size: 0.8rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .photo-item:hover .remove-btn { opacity: 1; }
+
+  /* ── CLOSING ── */
+  #closing {
+    text-align: center;
+    gap: 2rem;
+  }
+
+  .closing-line {
+    width: 60px; height: 1px;
+    background: var(--accent);
+    margin: 0 auto;
+    opacity: 0.5;
+  }
+
+  .closing-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.5rem, 5vw, 2.8rem);
+    font-weight: 300;
+    color: var(--white);
+    line-height: 1.4;
+    max-width: 600px;
+  }
+  .closing-text em { color: var(--gold); }
+
+  .closing-stars { font-size: 1.5rem; letter-spacing: 0.5rem; opacity: 0.7; }
+
+  /* ── NEBULA BG ── */
+  .nebula {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .nebula-1 {
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(20,60,180,0.12), transparent 70%);
+    top: -100px; right: -100px;
+    animation: nebulaDrift 20s ease-in-out infinite;
+  }
+  .nebula-2 {
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(100,30,150,0.1), transparent 70%);
+    bottom: -50px; left: -100px;
+    animation: nebulaDrift 25s ease-in-out infinite reverse;
+  }
+  @keyframes nebulaDrift {
+    0%, 100% { transform: translate(0,0) scale(1); }
+    33% { transform: translate(30px, -20px) scale(1.05); }
+    66% { transform: translate(-20px, 15px) scale(0.98); }
+  }
+
+  /* Shooting star */
+  .shooting-star {
+    position: fixed;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 6px 2px rgba(255,255,255,0.8);
+    pointer-events: none;
+    z-index: 0;
+    animation: shoot 1.2s linear forwards;
+  }
+  @keyframes shoot {
+    0% { transform: translate(0, 0) scaleX(1); opacity: 1; }
+    100% { transform: translate(400px, 200px) scaleX(80); opacity: 0; }
+  }
+
+  /* Reveal on scroll */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .message-card { padding: 2rem 1.5rem; }
+    .photo-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<canvas id="stars-canvas"></canvas>
+<div class="nebula nebula-1"></div>
+<div class="nebula nebula-2"></div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="moon"></div>
+  <p class="hero-eyebrow">une page pour toi</p>
+  <h1 class="hero-name">Aya<em>Tapounpount</em></h1>
+  <p class="hero-subtitle">Quelque part entre les étoiles, il y a un endroit qui te ressemble. Tu es cet endroit.</p>
+  <div class="scroll-hint">
+    <span>défiler</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- MESSAGE -->
+<section id="message">
+  <p class="section-label reveal">un mot pour toi</p>
+  <div class="message-card reveal">
+    <p class="message-text">
+      Aya, je ne sais pas comment l'univers a fait pour te mettre sur ma route,
+      mais il a clairement eu une <span class="highlight">très bonne journée ce jour-là.</span>
+      <br><br>
+      T'es le genre de personne qui rend les lundis matins supportables.
+      Le genre qui fait qu'on sourit comme un idiot en regardant son téléphone.
+      Le genre qui me donne envie d'être <span class="highlight">un peu meilleur</span> — juste un peu, faut pas exagérer.
+      <br><br>
+      Je pourrais t'écrire mille trucs poétiques sur les étoiles et la lune,
+      mais la vérité c'est juste que t'es <span class="highlight">ma personne préférée dans toutes les galaxies connues.</span>
+      Et même les inconnues.
+      <br><br>
+      (Oui, c'est romantique. Non, je ne le répéterai pas à voix haute.)
+    </p>
+    <div class="message-signature">— avec tout l'amour du cosmos 🌙</div>
+  </div>
+</section>
+
+<!-- PHOTOS -->
+<section id="photos">
+  <p class="section-label reveal">nos souvenirs</p>
+  <h2 class="photos-title reveal">Nos <em>moments</em> à nous</h2>
+
+  <label class="upload-zone reveal" id="upload-zone">
+    <input type="file" id="photo-input" accept="image/*" multiple>
+    <div class="upload-icon">✦</div>
+    <p class="upload-text"><strong>Clique ici</strong> pour ajouter vos photos</p>
+    <p class="upload-text" style="margin-top:0.4rem; font-size:0.75rem; opacity:0.5;">PNG, JPG, WEBP — plusieurs à la fois possible</p>
+  </label>
+
+  <div class="photo-grid" id="photo-grid"></div>
+</section>
+
+<!-- CLOSING -->
+<section id="closing">
+  <div class="closing-line"></div>
+  <p class="closing-text reveal">
+    Dans n'importe quel univers,<br>
+    je te choisirais <em>encore</em>.
+  </p>
+  <div class="closing-stars reveal">✦ ✦ ✦</div>
+  <div class="closing-line"></div>
+</section>
+
+<script>
+// ── Cursor ──
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+function animCursor() {
+  cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+  rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(animCursor);
+}
+animCursor();
+
+// ── Stars canvas ──
+const canvas = document.getElementById('stars-canvas');
+const ctx = canvas.getContext('2d');
+let stars = [];
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+function initStars(n = 220) {
+  stars = [];
+  for (let i = 0; i < n; i++) {
+    stars.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.2 + 0.2,
+      a: Math.random(),
+      speed: Math.random() * 0.003 + 0.001,
+      phase: Math.random() * Math.PI * 2
+    });
+  }
+}
+initStars();
+
+function drawStars(t) {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  stars.forEach(s => {
+    const alpha = 0.3 + 0.5 * Math.sin(t * s.speed + s.phase);
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+    ctx.fill();
+  });
+  requestAnimationFrame(drawStars);
+}
+requestAnimationFrame(drawStars);
+
+// ── Shooting stars ──
+function shootingStar() {
+  const el = document.createElement('div');
+  el.className = 'shooting-star';
+  el.style.left = Math.random() * 60 + 'vw';
+  el.style.top = Math.random() * 40 + 'vh';
+  el.style.transform = `rotate(${30 + Math.random() * 20}deg)`;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 1400);
+}
+setInterval(shootingStar, 4000 + Math.random() * 3000);
+
+// ── Scroll reveal ──
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ── Photos upload ──
+const input = document.getElementById('photo-input');
+const grid = document.getElementById('photo-grid');
+
+input.addEventListener('change', () => {
+  Array.from(input.files).forEach(file => {
+    if (!file.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onload = e => addPhoto(e.target.result);
+    reader.readAsDataURL(file);
+  });
+  input.value = '';
+});
+
+function addPhoto(src) {
+  const item = document.createElement('div');
+  item.className = 'photo-item';
+  const img = document.createElement('img');
+  img.src = src;
+  const btn = document.createElement('button');
+  btn.className = 'remove-btn';
+  btn.innerHTML = '✕';
+  btn.addEventListener('click', () => item.remove());
+  item.appendChild(img);
+  item.appendChild(btn);
+  grid.appendChild(item);
+}
+</script>
+</body>
+</html>
